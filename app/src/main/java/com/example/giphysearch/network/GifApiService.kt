@@ -9,8 +9,8 @@ interface GifApiService {
     @GET("search")
     suspend fun getGifs(
         @Query("q") searchText: String,
-        @Query("api_key") apiKey: String = "123"
-        //@Query("api_key") apiKey: String = "PPYq7l2kVJqjqAM3hcNkgerQidztXat5"
+        //@Query("api_key") apiKey: String = "123"
+        @Query("api_key") apiKey: String = "PPYq7l2kVJqjqAM3hcNkgerQidztXat5"
     ): SearchResponse
 
 }

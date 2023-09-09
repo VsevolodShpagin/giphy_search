@@ -9,3 +9,6 @@ uiState or full name ?
 contentDescription
 optIn clear
 mocks in tests
+yeet loader out into object or whatever
+
+dafq is crossfade ?
