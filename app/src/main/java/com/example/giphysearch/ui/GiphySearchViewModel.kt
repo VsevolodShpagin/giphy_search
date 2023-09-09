@@ -35,13 +35,12 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
         viewModelScope.launch {
             giphySearchUiState = try {
                 GiphySearchUiState.Success(
-                    gifRepository.getGifs(searchText = searchText)
+                    gifRepository.getGifs(searchText = searchText).gifs
                 )
             } catch (e: IOException) {
                 GiphySearchUiState.Error(errorText = e.message ?: "error")
             } catch (e: HttpException) {
                 GiphySearchUiState.Error(errorText = e.response()?.errorBody().toString())
-                //GiphySearchUiState.Error
             }
         }
     }

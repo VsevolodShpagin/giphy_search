@@ -1,5 +1,9 @@
 package com.example.giphysearch.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Gif(
-    val ph: String
+    val id: String,
+    val url: String
 )

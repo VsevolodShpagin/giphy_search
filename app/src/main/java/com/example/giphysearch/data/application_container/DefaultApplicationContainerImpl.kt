@@ -3,16 +3,22 @@ package com.example.giphysearch.data.application_container
 import com.example.giphysearch.data.repository.GifRepository
 import com.example.giphysearch.data.repository.GifRepositoryNetworkImpl
 import com.example.giphysearch.network.GifApiService
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class DefaultApplicationContainerImpl : ApplicationContainer {
 
     //private val baseUlr = "api.giphy.com/v1/gifs/"
     private val baseUrl = "https://api.giphy.com/v1/gifs/"
 
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
+
     private val retrofit: Retrofit = Retrofit.Builder()
-        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
         .build()
 
