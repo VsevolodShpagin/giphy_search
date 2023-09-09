@@ -1,0 +1,11 @@
+yeet ToDo.txt
+which baseUrl?
+yeet baseUrl to stringRes?
+themes
+gif vs giphySearch in names
+init {} ?
+no viewModel factory ?
+uiState or full name ?
+contentDescription
+optIn clear
+mocks in tests
