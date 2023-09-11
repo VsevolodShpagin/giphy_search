@@ -8,7 +8,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-class DefaultApplicationContainerImpl : ApplicationContainer {
+class ApplicationContainerDefaultImpl : ApplicationContainer {
 
     //private val baseUlr = "api.giphy.com/v1/gifs/"
     private val baseUrl = "https://api.giphy.com/v1/gifs/"

@@ -2,7 +2,7 @@ package com.example.giphysearch
 
 import android.app.Application
 import com.example.giphysearch.data.application_container.ApplicationContainer
-import com.example.giphysearch.data.application_container.DefaultApplicationContainerImpl
+import com.example.giphysearch.data.application_container.ApplicationContainerDefaultImpl
 
 class GiphySearchApplication : Application() {
 
@@ -10,7 +10,8 @@ class GiphySearchApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        container = DefaultApplicationContainerImpl()
+        container = ApplicationContainerDefaultImpl()
+        //container = ApplicationContainerFakeImpl()
     }
 
 }
