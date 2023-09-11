@@ -1,4 +1,4 @@
-package com.example.giphysearch.data.repository
+package com.example.giphysearch.repository
 
 import com.example.giphysearch.model.SearchResponse
 

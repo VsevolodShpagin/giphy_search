@@ -1,17 +1,17 @@
-package com.example.giphysearch.data.application_container
+package com.example.giphysearch.application_container
 
-import com.example.giphysearch.data.repository.GifRepository
-import com.example.giphysearch.data.repository.GifRepositoryNetworkImpl
-import com.example.giphysearch.network.GifApiService
+import com.example.giphysearch.network.GiphyApiService
+import com.example.giphysearch.repository.GifRepository
+import com.example.giphysearch.repository.GifRepositoryNetworkImpl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-class ApplicationContainerDefaultImpl : ApplicationContainer {
+class ApplicationContainerNetworkImpl : ApplicationContainer {
 
-    //private val baseUlr = "api.giphy.com/v1/gifs/"
     private val baseUrl = "https://api.giphy.com/v1/gifs/"
+    //private val baseUrl = "//10.0.2.2:8080/"
 
     private val json = Json {
         ignoreUnknownKeys = true
@@ -22,8 +22,8 @@ class ApplicationContainerDefaultImpl : ApplicationContainer {
         .baseUrl(baseUrl)
         .build()
 
-    private val retrofitService: GifApiService by lazy {
-        retrofit.create(GifApiService::class.java)
+    private val retrofitService: GiphyApiService by lazy {
+        retrofit.create(GiphyApiService::class.java)
     }
 
     override val gifRepository: GifRepository by lazy {

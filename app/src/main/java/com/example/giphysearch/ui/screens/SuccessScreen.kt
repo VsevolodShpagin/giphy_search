@@ -1,0 +1,76 @@
+package com.example.giphysearch.ui.screens
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Card
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.giphysearch.R
+import com.example.giphysearch.model.Gif
+import com.example.giphysearch.model.Image
+import com.example.giphysearch.model.Images
+import com.example.giphysearch.ui.theme.GiphySearchTheme
+
+@Composable
+fun SuccessScreen(
+    gifs: List<Gif>,
+    modifier: Modifier = Modifier
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(150.dp),
+        contentPadding = PaddingValues(4.dp),
+        modifier = modifier
+    ) {
+        items(items = gifs, key = { gif -> gif.id }) { item ->
+            GifCard(
+                gif = item,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .aspectRatio(1F)
+            )
+        }
+    }
+}
+
+@Composable
+fun GifCard(gif: Gif, modifier: Modifier = Modifier) {
+    Card(modifier = modifier) {
+        val imageRequest = ImageRequest.Builder(LocalContext.current)
+            .data(gif.images.image.webp)
+            .build()
+        AsyncImage(
+            model = imageRequest,
+            contentDescription = gif.title,
+            placeholder = painterResource(id = R.drawable.horse),
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun SuccessScreenPreview() {
+    GiphySearchTheme {
+        SuccessScreen(
+            gifs = listOf(
+                Gif("horse1", "horse1", Images(Image(""))),
+                Gif("horse2", "horse2", Images(Image(""))),
+                Gif("horse3", "horse3", Images(Image(""))),
+                Gif("horse4", "horse4", Images(Image("")))
+            )
+        )
+    }
+}

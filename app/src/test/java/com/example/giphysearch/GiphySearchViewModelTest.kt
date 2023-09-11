@@ -31,7 +31,7 @@ class GiphySearchViewModelTest {
         advanceTimeBy(3000L)
         assertEquals(
             GiphySearchUiState.Success(FakeResponse.response.gifs),
-            giphySearchViewModel.giphySearchUiState
+            giphySearchViewModel.uiState
         )
     }
 

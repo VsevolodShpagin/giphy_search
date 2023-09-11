@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.giphysearch.GiphySearchApplication
-import com.example.giphysearch.data.repository.GifRepository
+import com.example.giphysearch.repository.GifRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -18,14 +18,10 @@ import java.io.IOException
 
 class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel() {
 
-    var giphySearchUiState: GiphySearchUiState by mutableStateOf(GiphySearchUiState.Error("PH"))
+    var uiState: GiphySearchUiState by mutableStateOf(GiphySearchUiState.Blank)
         private set
     var inputText by mutableStateOf("")
         private set
-
-    init {
-
-    }
 
     fun updateInputText(inputText: String) {
         this.inputText = inputText
@@ -36,12 +32,12 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
         viewModelScope.launch {
             delay(2000L)
             if (searchText == inputText) {
-                giphySearchUiState = try {
+                uiState = try {
                     GiphySearchUiState.Success(
                         gifRepository.getGifs(searchText = searchText).gifs
                     )
                 } catch (e: IOException) {
-                    GiphySearchUiState.Error(errorText = e.message ?: "error")
+                    GiphySearchUiState.Error(errorText = e.message ?: "")
                 } catch (e: HttpException) {
                     GiphySearchUiState.Error(errorText = e.response()?.errorBody().toString())
                 }

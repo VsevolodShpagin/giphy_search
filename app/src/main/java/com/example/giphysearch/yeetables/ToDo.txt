@@ -1,14 +1,10 @@
-yeet ToDo.txt
-which baseUrl?
-yeet baseUrl to stringRes?
+yeet PH horse
 themes
-gif vs giphySearch in names
-init {} ?
-no viewModel factory ?
-uiState or full name ?
-contentDescription
-optIn clear
 mocks in tests
-yeet loader out into object or whatever
+string const outside composable ?
+yeet json_example
+yeet localhost
+yeet cleartext manifest
+yeet ToDo.txt
 
-dafq is crossfade ?
+dafq is by lazy ?

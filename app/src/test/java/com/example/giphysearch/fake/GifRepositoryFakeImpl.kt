@@ -1,7 +1,7 @@
 package com.example.giphysearch.fake
 
-import com.example.giphysearch.data.repository.GifRepository
 import com.example.giphysearch.model.SearchResponse
+import com.example.giphysearch.repository.GifRepository
 
 class GifRepositoryFakeImpl : GifRepository {
 
