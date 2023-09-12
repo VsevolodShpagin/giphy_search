@@ -5,9 +5,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.example.giphysearch.R
 import com.example.giphysearch.ui.theme.GiphySearchTheme
 
 @Composable
@@ -17,7 +18,7 @@ fun ErrorScreen(errorText: String, modifier: Modifier = Modifier) {
             text = errorText,
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(4.dp)
+                .padding(dimensionResource(id = R.dimen.padding_small))
         )
     }
 }

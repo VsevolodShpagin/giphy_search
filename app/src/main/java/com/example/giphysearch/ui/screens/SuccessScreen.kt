@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -32,7 +32,7 @@ fun SuccessScreen(
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Adaptive(150.dp),
-        contentPadding = PaddingValues(4.dp),
+        contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_tiny)),
         modifier = modifier
     ) {
         itemsIndexed(items = gifs) { i, item ->
@@ -40,7 +40,7 @@ fun SuccessScreen(
             GifCard(
                 gif = item,
                 modifier = Modifier
-                    .padding(4.dp)
+                    .padding(dimensionResource(id = R.dimen.padding_tiny))
             )
         }
     }
@@ -56,7 +56,7 @@ fun GifCard(gif: Gif, modifier: Modifier = Modifier) {
         AsyncImage(
             model = imageRequest,
             contentDescription = gif.title,
-            placeholder = painterResource(id = R.drawable.loading),
+            //placeholder = painterResource(id = R.drawable.loading),
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.fillMaxSize()
         )
