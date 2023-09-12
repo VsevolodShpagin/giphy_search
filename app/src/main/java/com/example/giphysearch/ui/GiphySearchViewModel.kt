@@ -23,9 +23,7 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
     var inputText by mutableStateOf("")
         private set
 
-    var offset: Int = 0
-        private set
-    //private var offset: Int = 0
+    private var offset: Int = 0
 
     fun updateInputText(inputText: String) {
         this.inputText = inputText
@@ -39,7 +37,7 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
 
     private fun getGifs(searchText: String) {
         viewModelScope.launch {
-            delay(2000L)
+            delay(1000L)
             if (searchText == inputText) {
                 uiState = try {
                     val response = gifRepository.getGifs(searchText = searchText, offset = offset)
