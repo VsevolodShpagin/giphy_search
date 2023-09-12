@@ -7,11 +7,13 @@ import com.example.giphysearch.ui.GiphySearchUiState
 @Composable
 fun ResultScreen(
     uiState: GiphySearchUiState,
+    onListEndReached: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
         is GiphySearchUiState.Success -> SuccessScreen(
             gifs = uiState.gifs,
+            onListEndReached = onListEndReached,
             modifier = modifier
         )
 

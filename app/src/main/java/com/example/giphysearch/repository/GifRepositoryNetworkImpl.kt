@@ -7,8 +7,8 @@ class GifRepositoryNetworkImpl(
     private val giphyApiService: GiphyApiService
 ) : GifRepository {
 
-    override suspend fun getGifs(searchText: String): SearchResponse {
-        return giphyApiService.getGifs(searchText = searchText)
+    override suspend fun getGifs(searchText: String, offset: Int): SearchResponse {
+        return giphyApiService.getGifs(searchText = searchText, offset = offset)
     }
 
 }

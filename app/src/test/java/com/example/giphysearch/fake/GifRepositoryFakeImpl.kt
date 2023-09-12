@@ -5,7 +5,7 @@ import com.example.giphysearch.repository.GifRepository
 
 class GifRepositoryFakeImpl : GifRepository {
 
-    override suspend fun getGifs(searchText: String): SearchResponse {
+    override suspend fun getGifs(searchText: String, offset: Int): SearchResponse {
         return FakeResponse.response
     }
 

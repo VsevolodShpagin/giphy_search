@@ -29,6 +29,9 @@ fun GiphySearchApp() {
             },
             modifier = Modifier.fillMaxWidth()
         )
-        ResultScreen(uiState = viewModel.uiState)
+        ResultScreen(
+            uiState = viewModel.uiState,
+            onListEndReached = { viewModel.onListEndReached() }
+        )
     }
 }

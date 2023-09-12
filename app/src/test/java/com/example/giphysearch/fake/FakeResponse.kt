@@ -9,6 +9,6 @@ import com.example.giphysearch.model.SearchResponse
 object FakeResponse {
 
     val response: SearchResponse =
-        SearchResponse(listOf(Gif("", Images(Image("")))), Pagination(0, 0, 0))
+        SearchResponse(listOf(Gif("", "", Images(Image("")))), Pagination(0, 0, 0))
 
 }

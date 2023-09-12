@@ -5,7 +5,7 @@ import com.example.giphysearch.network.GiphyApiService
 
 class GiphyApiServiceFakeImpl : GiphyApiService {
 
-    override suspend fun getGifs(searchText: String, apiKey: String): SearchResponse {
+    override suspend fun getGifs(searchText: String, apiKey: String, offset: Int): SearchResponse {
         return FakeResponse.response
     }
 
