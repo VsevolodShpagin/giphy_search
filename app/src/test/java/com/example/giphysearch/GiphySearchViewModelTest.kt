@@ -19,20 +19,42 @@ class GiphySearchViewModelTest {
 
     @Test
     fun giphySearchViewModel_updateInputText_verifyTextChange() {
-        val giphySearchViewModel = GiphySearchViewModel(gifRepository = GifRepositoryFakeImpl())
-        giphySearchViewModel.updateInputText("horse")
-        assertEquals("horse", giphySearchViewModel.inputText)
+        val viewModel = GiphySearchViewModel(gifRepository = GifRepositoryFakeImpl())
+        viewModel.updateInputText("horse")
+        assertEquals("horse", viewModel.inputText)
+    }
+
+    @Test
+    fun giphySearchViewModel_updateInputText_verifyOffsetReset() = runTest {
+        val viewModel = GiphySearchViewModel(gifRepository = GifRepositoryFakeImpl())
+        assertEquals(0, viewModel.offset)
+        viewModel.updateInputText("horse")
+        advanceTimeBy(3000L)
+        assertEquals(50, viewModel.offset)
+        viewModel.updateInputText("red")
+        assertEquals(0, viewModel.offset)
     }
 
     @Test
     fun giphySearchViewModel_getGifs_verifyUiStateSuccess() = runTest {
-        val giphySearchViewModel = GiphySearchViewModel(gifRepository = GifRepositoryFakeImpl())
-        giphySearchViewModel.updateInputText("")
+        val viewModel = GiphySearchViewModel(gifRepository = GifRepositoryFakeImpl())
+        viewModel.updateInputText("text")
         advanceTimeBy(3000L)
         assertEquals(
             GiphySearchUiState.Success(FakeResponse.response.gifs),
-            giphySearchViewModel.uiState
+            viewModel.uiState
         )
+    }
+
+    @Test
+    fun giphySearchViewModel_getGifs_verifyListAdditionOnScroll() = runTest {
+        val viewModel = GiphySearchViewModel(gifRepository = GifRepositoryFakeImpl())
+        viewModel.updateInputText("text")
+        advanceTimeBy(3000L)
+        assertEquals(1, (viewModel.uiState as? GiphySearchUiState.Success)?.gifs?.size)
+        viewModel.onListEndReached()
+        advanceTimeBy(3000L)
+        assertEquals(2, (viewModel.uiState as? GiphySearchUiState.Success)?.gifs?.size)
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.giphysearch.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,7 +23,9 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
     var inputText by mutableStateOf("")
         private set
 
-    private var offset: Int = 0
+    var offset: Int = 0
+        private set
+    //private var offset: Int = 0
 
     fun updateInputText(inputText: String) {
         this.inputText = inputText
@@ -41,10 +42,8 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
             delay(2000L)
             if (searchText == inputText) {
                 uiState = try {
-                    Log.d("getGifs", "$offset")
                     val response = gifRepository.getGifs(searchText = searchText, offset = offset)
                     offset += response.pagination.count
-                    Log.d("getGifs", "$offset")
                     val currentGifs = (uiState as? GiphySearchUiState.Success)?.gifs ?: listOf()
                     val gifs = currentGifs + response.gifs
                     GiphySearchUiState.Success(gifs)
