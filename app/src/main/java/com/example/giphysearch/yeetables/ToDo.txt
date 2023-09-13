@@ -3,5 +3,3 @@ yeet json_example
 yeet localhost
 yeet cleartext manifest
 yeet ToDo.txt
-
-dafq is by lazy ?

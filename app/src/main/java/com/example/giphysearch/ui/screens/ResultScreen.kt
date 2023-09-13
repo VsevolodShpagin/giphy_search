@@ -2,27 +2,29 @@ package com.example.giphysearch.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.giphysearch.ui.GiphySearchUiState
+import com.example.giphysearch.model.Gif
 
 @Composable
 fun ResultScreen(
-    uiState: GiphySearchUiState,
+    gifs: List<Gif>,
+    errorText: String,
+    //uiState: GiphySearchUiState,
     onListEndReached: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    when (uiState) {
-        is GiphySearchUiState.Success -> SuccessScreen(
-            gifs = uiState.gifs,
+    if (gifs.isNotEmpty()) {
+        SuccessScreen(
+            gifs = gifs,
             onListEndReached = onListEndReached,
             modifier = modifier
         )
-
-        is GiphySearchUiState.Blank -> BlankScreen(
+    } else if (errorText.isNotBlank()) {
+        ErrorScreen(
+            errorText = errorText,
             modifier = modifier
         )
-
-        is GiphySearchUiState.Error -> ErrorScreen(
-            errorText = uiState.errorText,
+    } else {
+        BlankScreen(
             modifier = modifier
         )
     }

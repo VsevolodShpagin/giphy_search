@@ -19,6 +19,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -47,9 +49,13 @@ fun GiphySearchApp() {
             ) {
                 val viewModel: GiphySearchViewModel =
                     viewModel(factory = GiphySearchViewModel.Factory)
+                //val uiState by viewModel.uiState.collectAsState()
+                val gifs by viewModel.gifs.collectAsState()
+                val errorText by viewModel.errorText.collectAsState()
+                val inputText by viewModel.inputText.collectAsState()
                 TextField(
-                    value = viewModel.inputText,
-                    onValueChange = viewModel::updateInputText,
+                    value = inputText,
+                    onValueChange = viewModel::onInputTextChange,
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
@@ -59,7 +65,9 @@ fun GiphySearchApp() {
                     modifier = Modifier.fillMaxWidth()
                 )
                 ResultScreen(
-                    uiState = viewModel.uiState,
+                    //uiState = uiState,
+                    gifs = gifs,
+                    errorText = errorText,
                     onListEndReached = { viewModel.onListEndReached() }
                 )
             }

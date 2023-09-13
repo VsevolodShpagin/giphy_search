@@ -1,8 +1,5 @@
 package com.example.giphysearch.ui
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -10,46 +7,74 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.giphysearch.GiphySearchApplication
+import com.example.giphysearch.model.Gif
 import com.example.giphysearch.repository.GifRepository
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+@OptIn(FlowPreview::class)
 class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel() {
 
-    var uiState: GiphySearchUiState by mutableStateOf(GiphySearchUiState.Blank)
-        private set
-    var inputText by mutableStateOf("")
-        private set
+//    private val _uiState = MutableStateFlow(GiphySearchUiState())
+//    val uiState = _uiState.asStateFlow()
+
+    private val _errorText = MutableStateFlow("")
+    val errorText = _errorText.asStateFlow()
+
+    private val _inputText = MutableStateFlow("")
+    val inputText = _inputText.asStateFlow()
+
+    private val _gifs = MutableStateFlow<List<Gif>>(listOf())
+    val gifs = inputText
+        .debounce(1000L)
+        .combine(_gifs) { inputText, gifs ->
+            if (inputText.isBlank()) {
+                listOf()
+            } else {
+                getGifs(inputText)
+                gifs
+            }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = _gifs.value
+        )
 
     private var offset: Int = 0
 
-    fun updateInputText(inputText: String) {
-        this.inputText = inputText
+    fun onInputTextChange(inputText: String) {
+        _inputText.value = inputText
         offset = 0
-        getGifs(searchText = inputText)
     }
 
     fun onListEndReached() {
-        getGifs(searchText = inputText)
+        getGifs(_inputText.value)
+        _gifs.update { gifs.value }
     }
 
     private fun getGifs(searchText: String) {
         viewModelScope.launch {
-            delay(1000L)
-            if (searchText == inputText) {
-                uiState = try {
-                    val response = gifRepository.getGifs(searchText = searchText, offset = offset)
-                    offset += response.pagination.count
-                    val currentGifs = (uiState as? GiphySearchUiState.Success)?.gifs ?: listOf()
-                    val gifs = currentGifs + response.gifs
-                    GiphySearchUiState.Success(gifs)
-                } catch (e: IOException) {
-                    GiphySearchUiState.Error(errorText = e.message ?: "")
-                } catch (e: HttpException) {
-                    GiphySearchUiState.Error(errorText = e.response()?.errorBody().toString())
-                }
+            try {
+                val currentGifs = _gifs.value
+                val response = gifRepository.getGifs(searchText = searchText, offset = offset)
+                offset += response.pagination.count
+                _gifs.update { currentGifs + response.gifs }
+            } catch (e: IOException) {
+                _errorText.value = e.message ?: ""
+                //_uiState.update { state -> state.copy(errorText = e.message ?: "") }
+            } catch (e: HttpException) {
+                _errorText.value = e.response()?.errorBody().toString()
+                //_uiState.update { state -> state.copy( errorText = e.response()?.errorBody().toString()) }
             }
         }
     }
