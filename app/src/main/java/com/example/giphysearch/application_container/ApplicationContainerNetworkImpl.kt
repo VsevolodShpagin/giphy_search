@@ -10,8 +10,7 @@ import retrofit2.Retrofit
 
 class ApplicationContainerNetworkImpl : ApplicationContainer {
 
-    //private val baseUrl = "https://api.giphy.com/v1/gifs/"
-    private val baseUrl = "http://10.0.2.2:8080/"
+    private val baseUrl = "https://api.giphy.com/v1/gifs/"
 
     private val json = Json {
         ignoreUnknownKeys = true
