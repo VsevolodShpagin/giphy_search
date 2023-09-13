@@ -10,7 +10,8 @@ interface GiphyApiService {
     suspend fun getGifs(
         @Query("q") searchText: String,
         @Query("api_key") apiKey: String = "PPYq7l2kVJqjqAM3hcNkgerQidztXat5",
-        @Query("offset") offset: Int = 0
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
     ): SearchResponse
 
 }
