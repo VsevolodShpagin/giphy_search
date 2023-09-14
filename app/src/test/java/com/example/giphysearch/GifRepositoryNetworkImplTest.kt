@@ -16,13 +16,13 @@ class GifRepositoryNetworkImplTest {
     @Test
     fun gifRepositoryNetworkImpl_getGifs_verifyCallWithDefaultOffset() = runTest {
         repository.getGifs("text")
-        coVerify { mockApiService.getGifs(searchText = "text", offset = 0) }
+        coVerify { mockApiService.getGifs(searchText = "text", limit = 50, offset = 0) }
     }
 
     @Test
     fun gifRepositoryNetworkImpl_getGifs_verifyCallWithPassedOffset() = runTest {
         repository.getGifs("text", 50)
-        coVerify { mockApiService.getGifs(searchText = "text", offset = 50) }
+        coVerify { mockApiService.getGifs(searchText = "text", limit = 50, offset = 50) }
     }
 
 }
