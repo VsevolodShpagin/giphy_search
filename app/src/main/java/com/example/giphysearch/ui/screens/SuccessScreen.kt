@@ -13,20 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.giphysearch.R
 import com.example.giphysearch.model.Gif
-import com.example.giphysearch.model.Image
-import com.example.giphysearch.model.Images
-import com.example.giphysearch.ui.theme.GiphySearchTheme
+import com.example.giphysearch.ui.GiphySearchUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SuccessScreen(
-    gifs: List<Gif>,
+    uiState: GiphySearchUiState,
     onListEndReached: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -35,8 +32,8 @@ fun SuccessScreen(
         contentPadding = PaddingValues(dimensionResource(id = R.dimen.padding_tiny)),
         modifier = modifier
     ) {
-        itemsIndexed(items = gifs) { i, item ->
-            if (i == gifs.size - 10) onListEndReached.invoke()
+        itemsIndexed(items = uiState.gifs) { i, item ->
+            if (i >= uiState.gifs.size - 7 && !uiState.endReached) onListEndReached.invoke()
             GifCard(
                 gif = item,
                 modifier = Modifier
@@ -56,25 +53,8 @@ fun GifCard(gif: Gif, modifier: Modifier = Modifier) {
         AsyncImage(
             model = imageRequest,
             contentDescription = gif.title,
-            //placeholder = painterResource(id = R.drawable.loading),
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.fillMaxSize()
-        )
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SuccessScreenPreview() {
-    GiphySearchTheme {
-        SuccessScreen(
-            gifs = listOf(
-                Gif("horse1", "horse1", Images(Image(""))),
-                Gif("horse2", "horse2", Images(Image(""))),
-                Gif("horse3", "horse3", Images(Image(""))),
-                Gif("horse4", "horse4", Images(Image("")))
-            ),
-            onListEndReached = {}
         )
     }
 }

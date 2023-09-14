@@ -49,7 +49,7 @@ fun GiphySearchApp() {
                     viewModel(factory = GiphySearchViewModel.Factory)
                 TextField(
                     value = viewModel.inputText,
-                    onValueChange = viewModel::updateInputText,
+                    onValueChange = viewModel::onInputTextChanged,
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
@@ -60,7 +60,7 @@ fun GiphySearchApp() {
                 )
                 ResultScreen(
                     uiState = viewModel.uiState,
-                    onListEndReached = { viewModel.onListEndReached() }
+                    onListEndReached = viewModel::onListEndReached
                 )
             }
         }

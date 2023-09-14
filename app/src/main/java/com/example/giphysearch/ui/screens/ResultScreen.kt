@@ -10,20 +10,19 @@ fun ResultScreen(
     onListEndReached: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    when (uiState) {
-        is GiphySearchUiState.Success -> SuccessScreen(
-            gifs = uiState.gifs,
+    if (uiState.gifs.isNotEmpty()) {
+        SuccessScreen(
+            uiState = uiState,
             onListEndReached = onListEndReached,
             modifier = modifier
         )
-
-        is GiphySearchUiState.Blank -> BlankScreen(
-            modifier = modifier
-        )
-
-        is GiphySearchUiState.Error -> ErrorScreen(
+    } else if (uiState.errorText.isNotBlank()) {
+        ErrorScreen(
             errorText = uiState.errorText,
             modifier = modifier
         )
-    }
+    } else
+        BlankScreen(
+            modifier = modifier
+        )
 }

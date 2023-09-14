@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.giphysearch.GiphySearchApplication
+import com.example.giphysearch.pagination.PaginatorDefaultImpl
 import com.example.giphysearch.repository.GifRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -18,37 +19,51 @@ import java.io.IOException
 
 class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel() {
 
-    var uiState: GiphySearchUiState by mutableStateOf(GiphySearchUiState.Blank)
+    var uiState by mutableStateOf(GiphySearchUiState())
         private set
     var inputText by mutableStateOf("")
         private set
 
-    private var offset: Int = 0
+    private val limit = 50
 
-    fun updateInputText(inputText: String) {
+    private val paginator = PaginatorDefaultImpl(
+        initialOffset = uiState.offset,
+        onRequest = { offset ->
+            gifRepository.getGifs(searchText = inputText, limit = limit, offset = offset).gifs
+        },
+        getNextOffset = { items ->
+            uiState.offset + items.size
+        },
+        onSuccess = { items, newOffset ->
+            uiState = uiState.copy(
+                gifs = uiState.gifs + items,
+                offset = newOffset,
+                endReached = items.isEmpty()
+            )
+        }
+    )
+
+    fun onInputTextChanged(inputText: String) {
         this.inputText = inputText
-        offset = 0
-        getGifs(searchText = inputText)
+        paginator.reset()
+        loadNextItems()
     }
 
     fun onListEndReached() {
-        getGifs(searchText = inputText)
+        loadNextItems()
     }
 
-    private fun getGifs(searchText: String) {
+    private fun loadNextItems() {
         viewModelScope.launch {
+            val searchText = inputText
             delay(1000L)
             if (searchText == inputText) {
-                uiState = try {
-                    val response = gifRepository.getGifs(searchText = searchText, offset = offset)
-                    offset += response.pagination.count
-                    val currentGifs = (uiState as? GiphySearchUiState.Success)?.gifs ?: listOf()
-                    val gifs = currentGifs + response.gifs
-                    GiphySearchUiState.Success(gifs)
+                try {
+                    paginator.loadNextItems()
                 } catch (e: IOException) {
-                    GiphySearchUiState.Error(errorText = e.message ?: "")
+                    uiState = uiState.copy(errorText = e.message ?: "")
                 } catch (e: HttpException) {
-                    GiphySearchUiState.Error(errorText = e.response()?.errorBody().toString())
+                    uiState = uiState.copy(errorText = e.response()?.errorBody().toString())
                 }
             }
         }
