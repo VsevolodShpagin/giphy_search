@@ -1,7 +1,7 @@
 package com.example.giphysearch
 
-import com.example.giphysearch.model.Gif
-import com.example.giphysearch.model.SearchResponse
+import com.example.giphysearch.domain.Gif
+import com.example.giphysearch.domain.SearchResponse
 import com.example.giphysearch.repository.GifRepository
 import com.example.giphysearch.ui.GiphySearchUiState
 import com.example.giphysearch.ui.GiphySearchViewModel

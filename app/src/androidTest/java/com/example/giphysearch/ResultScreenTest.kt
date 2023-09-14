@@ -6,9 +6,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.giphysearch.model.Gif
-import com.example.giphysearch.model.Image
-import com.example.giphysearch.model.Images
+import com.example.giphysearch.domain.Gif
 import com.example.giphysearch.ui.GiphySearchUiState
 import com.example.giphysearch.ui.screens.ResultScreen
 import org.junit.Rule
@@ -24,7 +22,7 @@ class ResultScreenTest {
             Gif(
                 id = "first",
                 title = "fake",
-                images = Images(image = Image(webp = "url"))
+                webp = "url"
             )
         )
     )

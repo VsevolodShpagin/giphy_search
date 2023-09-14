@@ -1,6 +1,6 @@
 package com.example.giphysearch.ui
 
-import com.example.giphysearch.model.Gif
+import com.example.giphysearch.domain.Gif
 
 sealed interface GiphySearchUiState {
 

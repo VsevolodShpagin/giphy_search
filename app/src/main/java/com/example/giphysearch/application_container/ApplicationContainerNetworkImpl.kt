@@ -12,8 +12,6 @@ import retrofit2.Retrofit
 @OptIn(ExperimentalSerializationApi::class)
 class ApplicationContainerNetworkImpl : ApplicationContainer {
 
-    private val baseUrl = "https://api.giphy.com/v1/gifs/"
-
     private val json = Json {
         explicitNulls = false
         ignoreUnknownKeys = true
@@ -21,7 +19,7 @@ class ApplicationContainerNetworkImpl : ApplicationContainer {
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-        .baseUrl(baseUrl)
+        .baseUrl(GiphyApiService.BASE_URL)
         .build()
 
     private val retrofitService: GiphyApiService by lazy {

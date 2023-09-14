@@ -19,9 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.giphysearch.R
-import com.example.giphysearch.model.Gif
-import com.example.giphysearch.model.Image
-import com.example.giphysearch.model.Images
+import com.example.giphysearch.domain.Gif
 import com.example.giphysearch.ui.theme.GiphySearchTheme
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -51,7 +49,7 @@ fun SuccessScreen(
 fun GifCard(gif: Gif, modifier: Modifier = Modifier) {
     Card(modifier = modifier.testTag("GifCard")) {
         val imageRequest = ImageRequest.Builder(LocalContext.current)
-            .data(gif.images.image.webp)
+            .data(gif.webp)
             .crossfade(true)
             .build()
         AsyncImage(
@@ -70,10 +68,10 @@ fun SuccessScreenPreview() {
     GiphySearchTheme {
         SuccessScreen(
             gifs = listOf(
-                Gif("horse1", "horse1", Images(Image(""))),
-                Gif("horse2", "horse2", Images(Image(""))),
-                Gif("horse3", "horse3", Images(Image(""))),
-                Gif("horse4", "horse4", Images(Image("")))
+                Gif("horse1", "horse1", ""),
+                Gif("horse2", "horse2", ""),
+                Gif("horse3", "horse3", ""),
+                Gif("horse4", "horse4", "")
             ),
             onListEndReached = {}
         )

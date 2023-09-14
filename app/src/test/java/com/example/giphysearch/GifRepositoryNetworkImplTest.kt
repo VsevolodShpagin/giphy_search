@@ -21,7 +21,7 @@ class GifRepositoryNetworkImplTest {
 
     @Test
     fun gifRepositoryNetworkImpl_getGifs_verifyCallWithPassedOffset() = runTest {
-        repository.getGifs("text", 50)
+        repository.getGifs("text", offset = 50)
         coVerify { mockApiService.getGifs(searchText = "text", limit = 50, offset = 50) }
     }
 

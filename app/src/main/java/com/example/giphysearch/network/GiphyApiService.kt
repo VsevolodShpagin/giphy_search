@@ -1,6 +1,6 @@
 package com.example.giphysearch.network
 
-import com.example.giphysearch.model.SearchResponse
+import com.example.giphysearch.data.network.SearchResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,6 +12,10 @@ interface GiphyApiService {
         @Query("api_key") apiKey: String = "PPYq7l2kVJqjqAM3hcNkgerQidztXat5",
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): SearchResponse
+    ): SearchResponseDto
+
+    companion object {
+        const val BASE_URL = "https://api.giphy.com/v1/gifs/"
+    }
 
 }
