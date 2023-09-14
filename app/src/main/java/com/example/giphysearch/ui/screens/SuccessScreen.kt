@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun SuccessScreen(
 
 @Composable
 fun GifCard(gif: Gif, modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
+    Card(modifier = modifier.testTag("GifCard")) {
         val imageRequest = ImageRequest.Builder(LocalContext.current)
             .data(gif.images.image.webp)
             .crossfade(true)

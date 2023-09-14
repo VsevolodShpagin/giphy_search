@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GiphySearch</string>
     <string name="top_bar_title">Giphy Search</string>
+    <string name="blank_screen_text">Search for something!</string>
 </resources>
