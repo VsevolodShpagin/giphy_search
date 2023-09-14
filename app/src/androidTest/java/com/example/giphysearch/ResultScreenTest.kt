@@ -27,7 +27,7 @@ class ResultScreenTest {
         )
     )
     private val fakeErrorUiState = GiphySearchUiState.Error(errorText = "error")
-    private val fakeBlankUiState = GiphySearchUiState.Blank
+    private val fakeBlankUiState = GiphySearchUiState.Blank(infoText = R.string.blank_screen_text)
 
     @Test
     fun successScreen_showGifs_verifyShown() {

@@ -18,6 +18,7 @@ fun ResultScreen(
         )
 
         is GiphySearchUiState.Blank -> BlankScreen(
+            infoText = uiState.infoText,
             modifier = modifier
         )
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.giphysearch.GiphySearchApplication
+import com.example.giphysearch.R
 import com.example.giphysearch.repository.GifRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -18,7 +19,7 @@ import java.io.IOException
 
 class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel() {
 
-    var uiState: GiphySearchUiState by mutableStateOf(GiphySearchUiState.Blank)
+    var uiState: GiphySearchUiState by mutableStateOf(GiphySearchUiState.Blank(R.string.blank_screen_text))
         private set
     var inputText by mutableStateOf("")
         private set
@@ -27,20 +28,20 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
 
     fun updateInputText(inputText: String) {
         this.inputText = inputText
-        offset = 0
-        getGifs(searchText = inputText)
+        resetScreen()
+        getGifs(inputTextCalledWith = inputText)
     }
 
     fun onListEndReached() {
-        getGifs(searchText = inputText)
+        getGifs(inputTextCalledWith = inputText)
     }
 
-    private fun getGifs(searchText: String) {
+    private fun getGifs(inputTextCalledWith: String) {
         viewModelScope.launch {
             delay(1000L)
-            if (searchText == inputText) {
+            if (inputText.isNotBlank() && inputTextCalledWith == inputText) {
                 uiState = try {
-                    val response = gifRepository.getGifs(searchText = searchText, offset = offset)
+                    val response = gifRepository.getGifs(searchText = inputText, offset = offset)
                     offset += response.pagination.count
                     val currentGifs = (uiState as? GiphySearchUiState.Success)?.gifs ?: listOf()
                     val gifs = currentGifs + response.gifs
@@ -52,6 +53,15 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
                 }
             }
         }
+    }
+
+    private fun resetScreen() {
+        uiState = if (inputText.isNotBlank()) {
+            GiphySearchUiState.Blank(R.string.loading_text)
+        } else {
+            GiphySearchUiState.Blank(R.string.blank_screen_text)
+        }
+        offset = 0
     }
 
     companion object {

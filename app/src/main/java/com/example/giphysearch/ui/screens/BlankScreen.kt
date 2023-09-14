@@ -11,10 +11,10 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.giphysearch.R
 
 @Composable
-fun BlankScreen(modifier: Modifier = Modifier) {
+fun BlankScreen(infoText: Int, modifier: Modifier = Modifier) {
     Surface(modifier = modifier) {
         Text(
-            text = stringResource(R.string.blank_screen_text),
+            text = stringResource(infoText),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.padding_small))
