@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.giphysearch.R
@@ -49,7 +51,6 @@ fun GiphySearchApp() {
             ) {
                 val viewModel: GiphySearchViewModel =
                     viewModel(factory = GiphySearchViewModel.Factory)
-                //val uiState by viewModel.uiState.collectAsState()
                 val gifs by viewModel.gifs.collectAsState()
                 val errorText by viewModel.errorText.collectAsState()
                 val inputText by viewModel.inputText.collectAsState()
@@ -62,10 +63,11 @@ fun GiphySearchApp() {
                             contentDescription = null
                         )
                     },
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
                 ResultScreen(
-                    //uiState = uiState,
                     gifs = gifs,
                     errorText = errorText,
                     onListEndReached = { viewModel.onListEndReached() }

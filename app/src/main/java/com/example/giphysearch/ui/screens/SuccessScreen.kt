@@ -56,7 +56,6 @@ fun GifCard(gif: Gif, modifier: Modifier = Modifier) {
         AsyncImage(
             model = imageRequest,
             contentDescription = gif.title,
-            //placeholder = painterResource(id = R.drawable.loading),
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.fillMaxSize()
         )

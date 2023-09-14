@@ -24,9 +24,6 @@ import java.io.IOException
 @OptIn(FlowPreview::class)
 class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel() {
 
-//    private val _uiState = MutableStateFlow(GiphySearchUiState())
-//    val uiState = _uiState.asStateFlow()
-
     private val _errorText = MutableStateFlow("")
     val errorText = _errorText.asStateFlow()
 
@@ -71,10 +68,8 @@ class GiphySearchViewModel(private val gifRepository: GifRepository) : ViewModel
                 _gifs.update { currentGifs + response.gifs }
             } catch (e: IOException) {
                 _errorText.value = e.message ?: ""
-                //_uiState.update { state -> state.copy(errorText = e.message ?: "") }
             } catch (e: HttpException) {
                 _errorText.value = e.response()?.errorBody().toString()
-                //_uiState.update { state -> state.copy( errorText = e.response()?.errorBody().toString()) }
             }
         }
     }

@@ -8,7 +8,6 @@ import com.example.giphysearch.model.Gif
 fun ResultScreen(
     gifs: List<Gif>,
     errorText: String,
-    //uiState: GiphySearchUiState,
     onListEndReached: () -> Unit,
     modifier: Modifier = Modifier
 ) {
